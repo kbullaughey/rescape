@@ -1,0 +1,26 @@
+CXX = @CXX@
+CXXFLAGS = @CXXFLAGS@
+LDFLAGS = @LDFLAGS@
+HEADERS = landscape.h error_handling.h command_line.h popsim.h sim_rand.h \
+	scapetypes.h stats.h array.h sequence.h configuration.h chain.h
+OBJS = landscape.o error_handling.o sim_rand.o command_line.o popsim.o \
+	stats.o segal.o array.o sequence.o main.o configuration.o chain.o \
+	scapetypes.o
+#CFLAGS = -Wall -O3 -fopenmp -fno-math-errno
+LIBS = @LIBS@
+progname = @PACKAGE_NAME@
+
+all: $(progname)
+	@echo benchmark=$(BENCHMARK)
+
+$(progname): $(OBJS) $(HEADERS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(INC) $(LIBS) -o $@ $(OBJS)
+
+%.o: %.cpp $(HEADERS)
+	$(CXX) $(CXXFLAGS) $(INC) -c $<
+
+clean:
+	-rm *.o $(progname)
+
+install:
+	cp $(progname) ../bin
