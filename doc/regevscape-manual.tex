@@ -1,0 +1,38 @@
+\documentclass[12pt]{article}
+\usepackage{cite}
+\usepackage[labelfont=bf,labelsep=period,justification=raggedright]{caption}
+\usepackage{graphicx}
+\usepackage{color}
+\bibliographystyle{plos2009}
+\setlength{\topmargin}{0.0cm}
+\setlength{\textheight}{23cm}
+\setlength{\textwidth}{16cm}
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\evensidemargin}{0.5cm}\setlength{\voffset}{-24pt}
+\usepackage{fancyhdr} 
+\pagestyle{fancy}
+\lhead{} 
+\chead{} 
+\rhead{\bfseries regevol Manual} 
+\lfoot{} 
+\cfoot{} 
+\rfoot{} 
+\setlength{\parskip}{8pt}  
+\usepackage[colorlinks]{hyperref}
+\hypersetup{linkcolor=black,citecolor=black}
+\usepackage{float}
+\clubpenalty=10000
+\widowpenalty=10000
+
+\author{Kevin Bullaughey \\ \normalsize{kbullaughey@gmail.com}} 
+\title{\texttt{regevscape} Manual}
+
+\begin{document}
+\maketitle
+
+\section*{Overview}
+
+This manual provides documentation of the \texttt{regevscape} program, which is short for \textbf{reg}ulatory \textbf{ev}olution land\textbf{scape} simulator. \texttt{regevscape} simulates sequence evolution of an enhancer using a computational model of regulatory function based on the Segal model\cite{Segal:2008fk}, a fitness penealization for misexpression, and forward population simulations. It was originally used by Bullaughey\cite{KLBullaughey11232010} to investigate nucleotide substitution processes in a regime of stabilizing selection for a particular regulatory output of simple toy enhancers. For an overview of the model and deatils on the implementation, please refer to the original paper\cite{KLBullaughey11232010}. The purpose of this manual is to document usage of the program and aid interpretation of the output.
+
+\bibliography{refs}
+\end{document}
