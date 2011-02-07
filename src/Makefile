@@ -1,5 +1,6 @@
 CXX = g++
-CXXFLAGS = -g -O2
+CFLAGS = -g -O2
+LDFLAGS = 
 HEADERS = landscape.h error_handling.h command_line.h popsim.h sim_rand.h \
 	scapetypes.h stats.h array.h sequence.h configuration.h chain.h
 OBJS = landscape.o error_handling.o sim_rand.o command_line.o popsim.o \
@@ -13,10 +14,10 @@ all: $(progname)
 	@echo benchmark=$(BENCHMARK)
 
 $(progname): $(OBJS) $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(INC) $(LIBS) -o $@ $(OBJS)
+	$(CXX) $(CFLAGS) $(LDFLAGS) $(INC) $(LIBS) -o $@ $(OBJS)
 
 %.o: %.cpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(INC) -c $<
+	$(CXX) $(CFLAGS) $(incdir) $(INC) -c $<
 
 clean:
 	-rm *.o $(progname)

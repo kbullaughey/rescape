@@ -1,5 +1,5 @@
 CXX = @CXX@
-CXXFLAGS = @CXXFLAGS@
+CFLAGS = @CFLAGS@
 LDFLAGS = @LDFLAGS@
 HEADERS = landscape.h error_handling.h command_line.h popsim.h sim_rand.h \
 	scapetypes.h stats.h array.h sequence.h configuration.h chain.h
@@ -14,10 +14,10 @@ all: $(progname)
 	@echo benchmark=$(BENCHMARK)
 
 $(progname): $(OBJS) $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(INC) $(LIBS) -o $@ $(OBJS)
+	$(CXX) $(CFLAGS) $(LDFLAGS) $(INC) $(LIBS) -o $@ $(OBJS)
 
 %.o: %.cpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(INC) -c $<
+	$(CXX) $(CFLAGS) $(incdir) $(INC) -c $<
 
 clean:
 	-rm *.o $(progname)

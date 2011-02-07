@@ -1,0 +1,36 @@
+OVERVIEW 
+
+This package contains the program regevscape which simulations the evolution
+of regulatory DNA for a single enhancer or promoter. Please see the original
+paper for details on the purposes and interpretation of this program:
+
+   Changes in Selective Effects Over Time Facilitate Turnover of 
+   Enhancer Sequences. Bullaughey KL, Genetics. 2010 Nov 23. 
+   [Epub ahead of print]
+
+Please contact me (kbullaughey@gmail.com) if you have questions about this 
+software or the paper.
+
+INSTALLATION
+
+To compile regevscape in the simplest setting, you can do the following:
+
+   ./configure
+   make
+
+Installing it will copy the main binary to the bin directory contained in the 
+distribution, accomplished as follows:
+
+   make install
+
+This program requires the GNU Scientific Library, gsl. If you have this in
+a non-standard location, you can specify where to find the include and lib
+directories when you run configure:
+
+   ./configure LDFLAGS="-L/sw/lib" CFLAGS="-I/sw/include"
+
+Replace /sw/lib and /sw/include with wherever gsl.h and libgsl (and possibly
+libgslcblas) are located.
+
+
+Enjoy.

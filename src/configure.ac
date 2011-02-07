@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.59)
+AC_PREREQ(2.62)
 AC_INIT([regevscape], [0.9], [kbullaughey@gmail.com])
 AC_CONFIG_SRCDIR([array.cpp])
 #AC_CONFIG_HEADER([config.h])
