@@ -6,7 +6,11 @@
 #include <valarray>
 #include <iostream>
 #include <vector>
-#include <omp.h>
+
+/* use openmp if it's available */
+#ifdef _OPENMP
+   #include <omp.h>
+#endif
 
 using std::valarray;
 using std::cout;
@@ -209,16 +213,22 @@ double ParallelTemperedChains::energy_function(SegalModelParameter &theta) {
    double expr, res;
    /* everything we need is already stored in the samplers */
 
-   /* this loop is parallelized using Open MP */
+   /* this loop is parallelized using Open MP if it's available */
+#ifdef _OPENMP
    omp_set_num_threads(ls->slots);
 #pragma omp parallel for private(expr)
+#endif
    for (int i = 0; i < (int)samplers.size(); i++) {
       expr = samplers[i]->importance_prob_expr(theta.lambda, theta.alpha, theta.gamma);
       cerr << current_step << ": energy_function: expr=" << expr << " obs=" 
          << samplers[i]->observed_expression << endl;
       res = fabs(expr - samplers[i]->observed_expression);
-#pragma omp atomic
+#ifdef _OPENMP
+   #pragma omp atomic
       sumabs += res;
+#else
+      sumabs += res;
+#endif
    }
    cerr << current_step << ": energy_function: returning " << sumabs << endl;
    return sumabs;

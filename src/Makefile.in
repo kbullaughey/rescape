@@ -11,7 +11,6 @@ LIBS = @LIBS@
 progname = @PACKAGE_NAME@
 
 all: $(progname)
-	@echo benchmark=$(BENCHMARK)
 
 $(progname): $(OBJS) $(HEADERS)
 	$(CXX) $(CFLAGS) $(LDFLAGS) $(INC) $(LIBS) -o $@ $(OBJS)
