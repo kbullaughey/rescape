@@ -3,8 +3,7 @@
 
 AC_PREREQ(2.62)
 AC_INIT([regevscape], [0.9], [kbullaughey@gmail.com])
-AC_CONFIG_SRCDIR([array.cpp])
-#AC_CONFIG_HEADER([config.h])
+AC_CONFIG_SRCDIR([src/array.cpp])
 
 # Checks for programs.
 AC_PROG_CXX
@@ -13,7 +12,7 @@ AC_PROG_CC
 # Checks for libraries.
 AC_CHECK_LIB([m], [log])
 AC_CHECK_LIB([gslcblas], [cblas_sgemm])
-AC_CHECK_LIB([gsl], [gsl_ran_multinomial])
+AC_CHECK_LIB([gsl], [gsl_ran_multinomial], [], AC_MSG_ERROR([gsl is required for compilation]))
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -34,5 +33,5 @@ AC_FUNC_MALLOC
 AC_FUNC_STRTOD
 AC_CHECK_FUNCS([pow strtol strtoul])
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile:src/Makefile.in])
 AC_OUTPUT
