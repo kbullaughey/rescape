@@ -23,6 +23,8 @@ distribution, accomplished as follows:
 
    make install
 
+DEPENDENCIES
+
 This program requires the GNU Scientific Library, gsl. If you have this in
 a non-standard location, you can specify where to find the include and lib
 directories when you run configure:
@@ -32,5 +34,11 @@ directories when you run configure:
 Replace /sw/lib and /sw/include with wherever gsl.h and libgsl (and possibly
 libgslcblas) are located.
 
+OpenMP
+
+If OpenMP is available on your system (and detected by configure) then OpenMP
+support will be compiled in. However, currently the only aspect of the code
+that is parallelized is the partially implemented inference model. So in the
+current version, whether you have openmp should make no difference.
 
 Enjoy.
