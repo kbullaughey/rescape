@@ -2,6 +2,9 @@
 \usepackage{cite}
 \usepackage[labelfont=bf,labelsep=period,justification=raggedright]{caption}
 \usepackage{graphicx}
+\usepackage{tocloft}
+\renewcommand{\cftsecdotsep}{\cftdotsep}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
 \usepackage{color}
 \bibliographystyle{plos2009}
 \setlength{\topmargin}{0.0cm}
@@ -26,54 +29,55 @@
 \widowpenalty=10000
 
 \author{Kevin Bullaughey \\ \normalsize{kbullaughey@gmail.com}} 
-\title{\texttt{regevscape} Manual}
+\title{\texttt{regevscape} Manual\\ \normalsize{Regulatory Evolution Landscape Simulator}}
 
 \begin{document}
 \maketitle
+\pagebreak
+\tableofcontents
+\pagebreak
 
-\section*{Overview}
+\section{Overview}
 
-This manual provides documentation of the \texttt{regevscape} program, which is short for \textbf{reg}ulatory \textbf{ev}olution land\textbf{scape} simulator. \texttt{regevscape} simulates sequence evolution of an enhancer using a computational model of regulatory function based on the Segal model \cite{Segal:2008fk}, a fitness penalization for misexpression, and forward population simulations. It was originally used by Bullaughey \cite{KLBullaughey11232010} to investigate nucleotide substitution processes in a regime of stabilizing selection for a particular regulatory output of simple toy enhancers. For an overview of the model and details on the implementation, please refer to the original paper \cite{KLBullaughey11232010}. The purpose of this manual is to document usage of the program and aid interpretation of the output.
+This manual provides documentation of the \texttt{regevscape} program, which is short for \textbf{reg}ulatory \textbf{ev}olution land\textbf{scape} simulator. \texttt{regevscape} simulates sequence evolution of an enhancer using a computational model of regulatory function based on the Segal model \cite{Segal:2008p460}, a fitness penalization for misexpression, and forward population simulations. It was originally used by Bullaughey \cite{Bullaughey:2011p6261} to investigate nucleotide substitution processes in a regime of stabilizing selection for a particular regulatory output of simple toy enhancers. For an overview of the model and details on the implementation, please refer to the original paper \cite{Bullaughey:2011p6261}. The purpose of this manual is to document usage of the program and aid interpretation of the output.
 
-\section*{Terminology}
+\section{Terminology}
 
 Throughout this manual I invoke specific meanings of certain biological terms as they are relevant to the simulation. 
 
-A transcription factor's \textbf{activity} is the degree to which it contributes to activation of the basal transcription apparatus (for a repressor, this is a negative quantity). An \textbf{enhancer} is a specified length of DNA that is being modeled and is assumed to have regulatory function, and be in whatever chromatin configuration is necessary to be expressed. The enhancer is assumed to function in one or more discrete \textbf{\emph{trans}-backgrounds}, which can be thought of as a particular cell type, developmental time point, or spatial position. Each \emph{trans}-background is defined by the expression levels of the transcription factors (TFs) present. Each \emph{trans}-background has an optimal expression level of the gene in that \emph{trans}-background. The \emph{trans}-backgrounds, together with the optima, a specification of the TF binding functions and activity levels, defines a \textbf{regulatory problem}, i.e., the particular task faced by the gene to express properly and what it has to work with.
+A transcription factor's \textbf{activity} is the degree to which it contributes to activation of the basal transcription apparatus (for a repressor, this is a negative quantity). An \textbf{enhancer} is a specified length of DNA that is being modeled and is assumed to have regulatory function, and be in whatever chromatin configuration is necessary to be expressed. The enhancer is assumed to function in one or more discrete \textbf{\emph{trans}-backgrounds}, each of which can be thought of as a particular cell type, developmental time point, or spatial position. Each \emph{trans}-background is defined by the expression levels of the transcription factors (TFs) present. Each \emph{trans}-background has an optimal expression level of the gene in that \emph{trans}-background. The \emph{trans}-backgrounds, together with the optima and a specification of the TF binding functions and activity levels, defines a \textbf{regulatory problem}, i.e., the particular task faced by the gene to express properly and what it has to work with.
 
-Some terminology relates specifically to the Segal model and I follow my earlier conventions \cite{KLBullaughey11232010}. Occupancy of a nucleotide in the enhancer is the probability a TF is observed to be bound in a way overlapping the nucleotide. A configuration is a particular arrangement of TFs on the enhancer. The only valid configurations include the empty configuration (no TFs) or configurations with non-overlapping TFs. 
+Some terminology relates specifically to the Segal model and I follow my earlier conventions \cite{Bullaughey:2011p6261}. Occupancy of a nucleotide in the enhancer is the probability a TF is observed to be bound in a way overlapping the nucleotide. A configuration is a particular arrangement of TFs on the enhancer. The only valid configurations include the empty configuration (no TFs) or configurations with non-overlapping TFs. 
 
-\section*{Modes of operation}
+\section{Modes of operation}
 
-\texttt{regevscape} has two basic modes of operation. One is to do forward population simulations. 
+\texttt{regevscape} has two basic modes of operation. One is to do forward population simulations. The other mode is to compute various statistics related to the sequence fitness landscape. Possibilities here include computing expression profiles or various occupancy statistics. These statistics can be computed for either sequences sampled \emph{iid} from sequence space or all sequences within some number of mutational steps of a provided or sampled sequence. Alternatively, one can simply sample \emph{iid} from the distribution of configurations of TFs for a regulatory problem.
 
-The other mode is to compute various statistics related to the sequence fitness landscape. Possibilities here include sampling independent and identically distributed (\emph{iid}) sequences and computing fitness, computing all sequences within some number of mutational steps, computing expression profiles, computing various occupancy statistics, or sampling \emph{iid} from the configurations of TFs.
-
-\section*{Inputs}
+\section{Inputs}
 
 There are several components that need specification in order to parameterize the regulatory landscape and optionally, simulate regulatory evolution of an enhancer. Parameters required for specification of the fitness landscape include the binding functions of the TFs, the TF activity levels, the expression levels of these TFs in each \emph{trans}-background, the optimal expression levels in each \emph{trans}-background, and the shape of the fitness function. For simulating regulatory evolution, additional parameters need specification including population size, number of generations, mutation rates, insertion and deletion rates and distributions, and the initial sequence representing the initially monomorphic population. Finally, parameters dictating what output is to be provided are also needed. All these parameters are specified on the command line in an order-independent way. 
 
-\section*{Invoking \texttt{regevscape}: an example}
+\section{Invoking \texttt{regevscape}: an example}
 
 As an example, the following is one invocation of the \texttt{regevscape} command used in the original paper:
 
 \begin{verbatim}
-regevscape --model=segal --steps=200000 --length=100 --seed=129993921 \
-   --pwm=pwm_pair.pwms --tfs=2 --lambda=-1,2,-3 --gamma=2,-0.5,-0.5,2 \
-   --condition=0.02,0.02 --condition=0.15,0.3 --condition=0.02,0.02 \
-   --ffunc=f4 --coef=0.6,0.881,0.046,0.881\
-   --popsim -N 1000 -g 2000000 -u 5e-07 \
-   --pstat=most_freq_seq,100 --pstat=mutational_effects --pstat=allele_loss \
-   --seq=ttatcacagagtaaggggc...
+./regevscape --model=segal --steps=200000 --length=100 --seed=1 \
+  --pwm=pwm_pair.pwms --tfs=2 --lambda=-1,2,-3 --gamma=2,-0.5,-0.5,2 \
+  --ffunc=f4 --coef=0.6,0.041,0.786,0.999 \
+  --condition=0.02,0.3 --condition=0.3,0.3 --condition=0.3,0.02 \
+  --popsim -N 1000 -g 2000000 -u 5e-07 \
+  --pstat=most_freq_seq,100 --pstat=mutational_effects --pstat=allele_loss \
+  --seq=catttcggtcttgtttttggcgc...
 \end{verbatim}
 
-\noindent In the above, the initial sequence, specified with --seq, has been truncated but was originally 100 bp and the file, pwm\_pair.pwms, is assumed to exist. 
+\noindent Here the Segal model is used to simulate evolution of a 100 bp enhancer under three \emph{trans}-backgrounds using a Gaussian kernel as the expression-fitness function.
 
-To get a condensed help message detailing the possible command-line options to \texttt{regevscape}, simply invoke the program with no options, or the --help or -h options.
+To get a condensed help message detailing the possible command-line options to \texttt{regevscape}, simply invoke the program with no options, or the \texttt{--help} or \texttt{-h} options.
 
-\section*{Parameters}
+\section{Parameters}
 
-Specification of the model is rather verbose at the moment, which allows for some consistency checking so that copy-paste errors when running many variations among simulations can somewhat be avoided. 
+Specification of the model is rather verbose at the moment, which allows for some consistency checking so that copy-paste errors can somewhat be avoided when running many variations of simulations. 
 
 Currently the only model that is implemented in its entirety is the Segal model. Originally, I experimented with several other models of fitness landscapes (completely neutral, Orr's block model), but these are not complete. So all invocations of the program should contain the parameter: \texttt{--model=segal}.
 
@@ -87,11 +91,13 @@ P(E) = \sum_{c_k \in C}P(E|c_k)P(c_k) \approx \frac{1}{S}\sum_{i=1}^{S}P(E|c_i)
 
 The \texttt{--length=N} parameter gives the length of the enhancer sequence. This is not required if a sequence is specified, but must be provided if computing statistics of sequences sampled uniformly from sequence space (so the program knows to generate sequences of the desired length).
 
-Finally, the seed of the random number generator can be set with \texttt{--seed=N}, where \texttt{N} is an non-negative integer. Starting with the same seed is guaranteed to run deterministically, and identically each time.
+The seed of the random number generator can be set with \texttt{--seed=N}, where \texttt{N} is an non-negative integer. Starting with the same seed is guaranteed to run deterministically, and identically each time.
 
-\subsection*{Regulatory problem}
+Finally, if either a population simulation starting with a particular enhancer sequence is desired or if landscape statistics of a certain enhancer sequence are desired, the enhancer sequence can be specified with \texttt{--seq=<dna>}. If multiple sequences are given, the requested operations are performed for each of the given sequences.
 
-Specification of the regulatory problem requires providing the parameters: \texttt{--pwm}, \texttt{--tfs}, \texttt{--lambda}, \texttt{--gamma}, and one or more \texttt{--condition} specifications. In what follows, I reproduce equations from the paper using this implementation \cite{KLBullaughey11232010}, which are very similar to the formulation given in the original formulation of the Segal model \cite{Segal:2008fk}. For a more complete description of the model, please refer to these papers.
+\subsection{Regulatory problem}
+
+Specification of the regulatory problem requires providing the parameters: \texttt{--pwm}, \texttt{--tfs}, \texttt{--lambda}, \texttt{--gamma}, and one or more \texttt{--condition} specifications. In what follows, I reproduce equations from the paper using this implementation \cite{Bullaughey:2011p6261}, which are very similar to the formulation given in the original formulation of the Segal model \cite{Segal:2008p460}. For a more complete description of the model, please refer to these papers.
 
 \texttt{--pwm=<filename>} gives the file name of the position weight matrix file which specifies the binding affinity of the TFs. Here is an example of a valid pwm file:
 
@@ -118,7 +124,7 @@ P(E|c_k) = \frac{1}{1+\exp(-\sum_{i=0}^{M}\lambda_{TF_i})}
 
 \noindent Where there are $M$ TFs in configuration $c_k$. The length of the \texttt{--lambda} vector must be one more than the number of TFs given in \texttt{--tfs}. A positive $\lambda$ codes for an activator and negative $\lambda$ codes for a repressor. Similarly, a negative $\lambda_0$ codes for a generally repressive basal promoter and a positive one codes for a generally activated one. A present limitation of this implementation is that the $\lambda$ parameters are the same across all \emph{trans}-backgrounds, not allowing for a TF to sometimes be an activator and sometimes a repressor, a situation known to be important in some true biological settings.
 
-Interaction properties of the TFs are given by \texttt{--gamma=}$\gamma_{11},\gamma_{21},\ldots,\gamma_{TT}$ gives a matrix (iterating over columns before rows, Fortran notation) of pair-wise TF-TF cooperativity parameters. Omitting this parameter means there are no interactions among TFs. $\gamma{jk} \in [-1,\infty)$, with $g_{jk} = 0$ indicating no interaction. These $\gamma_{jk}$ parameters have the effect of altering the probability of a configuration in a way that is a function of the distance, $d$, between adjacently bound $\mathrm{TF}_{i-1}$ and $\mathrm{TF}_i$, such that the probability of a configuration, $c_k$ is:
+Interaction properties of the TFs are given by \texttt{--gamma=}$\gamma_{11},\gamma_{21},\ldots,\gamma_{TT}$, which lists a matrix (iterating over rows before columns) of pair-wise TF-TF cooperativity parameters. It probably makes most sense for this to be a symmetric matrix so that the interaction is the same for both orderings of a pair of adjacent TFs. Omitting this parameter means there are no interactions among TFs. $\gamma_{jk} \in [-1,\infty)$, with $g_{jk} = 0$ indicating no interaction. These $\gamma_{jk}$ parameters have the effect of altering the probability of a configuration in a way that is a function of the distance, $d$, between adjacently bound $\mathrm{TF}_{i-1}$ and $\mathrm{TF}_i$, such that the probability of a configuration, $c_k$ is:
 
 \begin{displaymath}
 P(c_k) \propto w(c_k) =
@@ -136,31 +142,252 @@ P(c_k) \propto w(c_k) =
 
 Finally, the last requirement for a regulatory problem is specifying the expression levels of the TFs in each of the \emph{trans}-backgrounds. These expression profiles are given by the \texttt{--condition=}$\tau_1,\ldots,\tau_T$ parameters, where $\tau_i > 0$. So, if a regulatory problem has three distinct \emph{trans}-backgrounds, then three \texttt{--condition} vectors must be given.
 
-\subsection*{Fitness function}
+\subsection{Fitness function}
 
 The original purpose of the Segal model was to provide a predictive model of expression and was essentially an optimization/inference problem. In order to use it to study evolution, I consider several parameterizations of expression-to-fitness mappings. Presently there are six fitness functions coded. The desired fitness function is given by the \texttt{--ffunc=<choice>} parameter where \texttt{<choice>} is a character string selecting one of the following:
 
-\begin{tabular}{l|p{6cm}|c|p{4cm}}
-Choice & Functional form & Conditions & Notes \\
+\begin{tabular}{l|p{6cm}|c|c|p{3.5cm}}
+Choice & Functional form & Conditions & Coeff. & Notes \\
 \hline
-\texttt{linear} & $f = \mathbf{x}^{T} \mathbf{c}$ & arbitrary & linear combination\\
-\texttt{nop} & $f = 1$ & arbitrary & neutral\\
-\texttt{f1} & $f = c_1 (x_1-c_2)^2 + c_3 (x_2-c_4)^2 + c_5$ & 2 & \\
-\texttt{f2} & $f = c_1^{(-c_2*(x_1-c_3)^2)} c_4^{(-c_5*(x_2-c_6)^2)}$ & 2 & \\
-\texttt{f3} & $f = \prod_{i=1}^{B} (c_1^(-c_2*(x_i-c_{i+2})^2))^{\frac{1}{C}}$ & $B$ & \\
-\texttt{f4} & $f = \exp(-\sum_{i=1}^{B}\frac{(x_i-c_{i+1})^2}{c_1})$ & $B$ & Gaussian kernel \\
+\texttt{linear} & $f = \mathbf{x}^{T} \mathbf{c}$ & B & B & linear combination\\
+\texttt{nop} & $f = 1$ & arbitrary & none & neutral\\
+\texttt{f1} & $f = c_1 (x_1-c_2)^2 + c_3 (x_2-c_4)^2 + c_5$ & 2 & 5 & \\
+\texttt{f2} & $f = c_1^{(-c_2*(x_1-c_3)^2)} c_4^{(-c_5*(x_2-c_6)^2)}$ & 2 & 6 & \\
+%prod(a^(-b*(xi-ci)^2))^(1/C)
+\texttt{f3} & $f = \prod_{i=1}^{B} (c_1^{-c_2(x_i-c_{i+2})^2})^{\frac{1}{C}}$ & $B$ & $B+2$ & generalization of \texttt{f2} \\
+\texttt{f4} & $f = \exp(-\sum_{i=1}^{B}\frac{(x_i-c_{i+1})^2}{c_1})$ & $B$ & $B+1$ & Gaussian kernel \\
+\hline
 \end{tabular}
 
 \noindent Each fitness function (with the exception of \texttt{nop}) requires a vector of coefficients, \texttt{--coef=c1,c2,\ldots}, parametrizing the selected function.
 
-\subsection*{Evolution simulation}
+Individuals are haploid, and so only the expression of a single allele need be computed.
 
-\section*{Opportunities for extension}
-Where possible, I have tried to code \texttt{regevscape} in a way that can be easily extended. Here I outline a few easy extensions that would be straightforward to integrate. 
+\subsection{Evolution simulation}
 
-% more complex binding functions
-% mutation models other than Jukes Cantor
-% sampling sequences from other distributions
+The population simulation is a standard forward population simulation with Wright-Fisher multinomial sampling of alleles based on the fitness of the alleles. Individuals are haploid, and the expression profile of a single enhancer is the sole determinant of fitness for the individual. Fitness of each allele is computed when it arises, and each newly arisen allele is given a unique integer ID even if this particular allele has arisen before by a separate mutational event. I assume a Jukes-Cantor mutation model with a single mutation parameter, thus mutating to/from any base is equiprobable. There is no recombination implemented at the moment.
+
+To run a forward population simulation, give the parameter \texttt{--popsim} (no argument required). The population size is indicated with \texttt{-N} and the number of generations with \texttt{-g} and the per-base-pair mutation rate is given with \texttt{-u}. The mutation rate can be given either in decimal or scientific notation. 
+
+To include insertions and deletions into the mutation model, provide the \texttt{--duplication=u,n,p} and \texttt{--deletion=u,n,p} parameters. As the name suggests, insertions are modeled as tandem duplications. Both duplications and deletions occur with some rate, \texttt{u}, and then conditional on occurring, the length distribution follows a negative binomial distribution with size parameter, \texttt{n}, and probability parameter, \texttt{p}. When the draw from the negative binomial is 0, this is equivalent to no mutation occurring (and is not recorded). Thus the actual probability of no mutation (of the particular type) is not exactly 1-\texttt{u}, it's actually a bit higher, including the zero-class of the negative binomial distribution.
+
+\subsection{Population statistics}
+
+Population statistics are only permissible when running a population simulation by specifying \texttt{--popsim}. There are two types of population simulation statistics: those printed at regular intervals and those printed when certain events occur. The former are summaries of the state of the simulation at the generation when they're printed, while the latter detail the particular event and give the generation when the event occurred. The below table summaries the possible statistics. 
+
+\begin{tabular}{l|p{8cm}}
+\hline
+\multicolumn{2}{l}{Statistics printed every \texttt{N} generations:} \\
+\hline
+\texttt{--pstat=most\_freq\_seq,N}     & Most frequent allele summary with sequence \\
+\texttt{--pstat=most\_freq\_noseq,N}   & Most frequent allele summary, but no sequence printed \\
+\texttt{--pstat=mean\_fitness,N}       & Population mean fitness \\
+\texttt{--pstat=all\_alleles,N}        & Details of each allele, sorted by number of copies \\
+\texttt{--pstat=allele\_counter,N}     & Number of alleles queried so far \\
+\hline
+\hline
+\multicolumn{2}{l}{Real-time statistics:} \\
+\hline
+\texttt{--pstat=mutational\_effects} & Print fitness info for new mutants \\
+\texttt{--pstat=allele\_loss}        & Print the generation and allele ID for alleles when they're lost \\
+\hline
+\end{tabular}
+
+\subsection{Landscape statistics}
+
+Landscape statistics can only be computed in the absence of \texttt{--popsim}, in which case one or more \texttt{--lstat} statistics must be requested (otherwise there is nothing to do). Each landscape statistic has the form: \texttt{--lstat=<stat>,N} where \texttt{<stat>} is the name of the requested statistic, and \texttt{N} is the number of sequences about which to provide the statistic (i.e., when sampling). Landscape statistics can be computed for either individual sequences (given with one or more \texttt{--seq} parameters) or for the indicated number of replicate sequences (which are sampled \emph{iid} from sequence space). If multiple \texttt{--lstat} parameters are given it makes most sense for each to have the same number or replicates, in which case all statistics are computed for each of the \texttt{N} sampled sequences.
+
+If \texttt{--neighbors=R} is given, then starting from each given or sampled sequence, all neighbors within a mutation radius of \texttt{R} will also be included in the output. By mutation radius, I mean sequences that can be reached with \texttt{R} or fewer point mutations. When \texttt{--neighbors} is given and a landscape statistic is requested with more than one replicate, then statistics for all neighbors of each replicate will be computed.
+
+\noindent The possible landscape statistics are described in the following table:
+
+\begin{tabular}{l|l|p{8cm}}
+Statistic & Models & Description \\
+\hline
+\texttt{--lstat=fitness,N}          & All & Print the enhancer fitness \\
+\texttt{--lstat=sequence,N}         & All & Print out the sequence \\
+\texttt{--lstat=expression,N}       & Segal & Print vector of expression levels \\
+\texttt{--lstat=tf\_occupancy,N}    & Segal & Print list of TF occupancy levels for each condition and TF combination \\
+\texttt{--lstat=wsum,N}             & Segal & Print the sum of all configuration weights \\
+\texttt{--lstat=configs,1}          & Segal & Print out \texttt{N} configurations, where here \texttt{N} is given by the \texttt{--steps=N} parameter \\
+\hline
+\end{tabular}
+
+\section{Output}
+
+The program always prints two summary lines at the beginning. The first, beginning with \texttt{cmd:} is the particular invocation of the command that was run, and the second, beginning with \texttt{params:} gives the values of all parameters, including those that were not specified but are set using the default values for those parameters (note, some of these are not documented here). In the examples below, some of the output is replaced by an ellipsis ($\ldots$) for brevity and lines ending with a slash are not broken in the actual output and do not contain the slash. In (nearly) all cases, the statistic gives the generation at which point it is printed, the name of the statistic and one or more columns some of which may be prefaced by labels. Nucleotide positions count from zero on up from left to right.
+
+All of the output given below is available in its entirety in the \texttt{examples} directory of the \texttt{regevscape} distribution. In each case, there is a shell script with the original command and the output from that command under the same root file name (with a \texttt{.out} extension).
+
+\subsection{\texttt{--pstat=most\_freq\_seq,N}}
+
+This results in a summary giving the most frequent sequence. The columns following the statistic name are: the allele ID, the number of substitutions on the lineage leading to this allele, the allele's sequence, the fitness, and the number of copies of the allele at this generation (Here N=1000).
+
+\begin{verbatim}
+gen: 0 pstat_most_freq_seq: 0 0 catttcggtc... 0.976249 1000
+gen: 100 pstat_most_freq_seq: 0 0 catttcggtc... 0.976249 978
+gen: 200 pstat_most_freq_seq: 0 0 catttcggtc... 0.976249 757
+gen: 300 pstat_most_freq_seq: 13 1 catttcggtc... 0.996808 873
+gen: 400 pstat_most_freq_seq: 13 1 catttcggtc... 0.996808 930
+.
+.
+\end{verbatim}
+
+As we can see, a substitution occurred somewhere between generations 200 and 300, and this was the 13th new allele to segregate in the population. For the full example see: \texttt{examples/popsim1.sh}
+
+\subsection{\texttt{--pstat=most\_freq\_noseq,N}}
+
+Similar to \texttt{--pstat=most\_freq\_seq,N} but omitting the DNA sequence.
+
+\subsection{\texttt{--pstat=mean\_fitness,N}}
+Print just the mean fitness of the population every N generations. Here's an example from \texttt{examples/popsim5.sh}:
+
+\begin{verbatim}
+gen: 0 pstat_mean_fitness: 0.603736
+gen: 200 pstat_mean_fitness: 0.746087
+gen: 400 pstat_mean_fitness: 0.827466
+gen: 600 pstat_mean_fitness: 0.947273
+gen: 800 pstat_mean_fitness: 0.956373
+gen: 1000 pstat_mean_fitness: 0.962493
+\end{verbatim}
+
+In the above simulation, a sequence was not specified, so instead one was sampled uniformly from sequence space, and thus the initial allele is not very fit at the beginning of the simulation, but the population quickly evolves adaptively toward a much more fit solution.
+
+\subsection{\texttt{--pstat=all\_alleles,N}}
+
+Instead of just the most frequent allele, print a line for each allele in the population. Summary lines are the same as in \texttt{--pstat=most\_freq\_seq}:
+
+\begin{verbatim}
+gen: 500 pstat_all_alleles: 
+0 0 catttcggtcttgtttttggcgggaagatgttctcgactgtgtgccgcgt 0.976822 1000
+
+gen: 750 pstat_all_alleles: 
+39 1 catttcggtattgtttttggcgggaagatgttctcgactgtgtgccgcgt 0.978885 3
+0 0 catttcggtcttgtttttggcgggaagatgttctcgactgtgtgccgcgt 0.976822 997
+
+gen: 1000 pstat_all_alleles: 
+50 1 catttcggtgttgtttttggcgggaagatgttctcgactgtgtgccgcgt 0.982094 4
+0 0 catttcggtcttgtttttggcgggaagatgttctcgactgtgtgccgcgt 0.976822 996
+\end{verbatim}
+
+\noindent This example is provided in \texttt{examples/popsim4.sh}.
+
+\subsection{\texttt{--pstat=mutational\_effects}}
+
+This prints each time a new mutation occurs and following the statistic name are the background allele sequence on which the mutation occurs, the ID of this background allele, the ID of the new allele, the number of copies of the background when the mutation occurs, the type of mutation (point, duplication, deletion), the site at which the mutation occurs (for deletions and duplications, this is the left-most nucleotide involved in the event), the number of nucleotides involved, the bases at the site(s) involved on the original background, the bases this is replaced with, the fitness of the background allele, the fitness of the new allele, the new DNA sequence resulting from the mutation, and whether this is the first time this allele has been seen. Here is an example:
+
+\begin{verbatim}
+gen: 17 pstat_mutational_effects: background: catttcggtc... old_id: 0 \
+  new_id: 6 copies: 999 type: point site: 27 len: 1 from: 'a' to: 't' \
+  bfit: 0.976249 mfit: 0.996041 new: catttcggtc... isnew: 1
+\end{verbatim}
+
+\noindent The above is from the example: \texttt{examples/popsim2.sh}.
+
+\subsection{\texttt{--pstat=allele\_loss}}
+
+Tracking of when alleles are lost from the population (due to not getting sampled in the subsequent generation) gives output like:
+
+\begin{verbatim}
+gen: 18 pstat_allele_loss: 6
+\end{verbatim}
+
+\noindent which indicates that at generation 18 allele with ID 6 was lost.
+
+\subsection{\texttt{--lstat=fitness,N} and \texttt{--lstat=sequence,N}}
+
+In the same way that any number of \texttt{--pstat}s can be given, one can also request multiple \texttt{--lstat}s. This allows one to get multiple types of information about the requested sequences or sampled sequences without multiple invocations of the program. Here is an example (\texttt{examples/lstat1.sh}) in which both \texttt{--lstat=fitness,4} and \texttt{--lstat=sequence,4} were given with no \texttt{--seq} provided (so all outputs are for randomly sampled sequences):
+
+\begin{verbatim}
+rep: 0 lstat_fitness: 0.425137
+rep: 0 acgagtgcgtcggatgccctcactttctatgttgtgcggcagttcaaaca
+rep: 1 lstat_fitness: 0.194325
+rep: 1 gagtgagttgtgacagattatgtggctgtgggcgcgcagcccgactttcc
+rep: 2 lstat_fitness: 0.532711
+rep: 2 acgggccgacggggcggaggcagaatccgcgcgtacctatcaagacctgg
+rep: 3 lstat_fitness: 0.564029
+rep: 3 tgaacctatataactcacactgtattctcggtggccctcgaacaaataat
+\end{verbatim}
+
+\subsection{\texttt{--lstat=expression,N}}
+
+This is given to compute the expression in each \emph{trans}-background (in the same order as the \texttt{--condition} arguments). In the following example, both \texttt{--lstat=expression,1} and \texttt{--lstat=fitness,1} are used along with one enhancer sequence. Here the fitness function is parameterized with \texttt{--ffunc=f4} and \texttt{--coef=0.6,0.041,0.786,0.999}, with the later three coefficients indicating the optimal expression. In the output below, we can see that the sequence is near the fitness optimum (1.0) but due to slight misexpression, it is not perfectly fit:
+
+\begin{verbatim}
+rep: 0 lstat_expression: 0.059615 0.90464 0.99958
+rep: 0 lstat_fitness: 0.976889
+\end{verbatim}
+
+\subsection{\texttt{--lstat=tf\_occupancy,N} and \texttt{--lstat=wsum,N}}
+
+One interesting summary of the enhancer sequence is the amount of binding of each TF in each \emph{trans}-background at each nucleotide position. This can be obtained with \texttt{--lstat=tf\_occupancy,N} producing output like the following:
+
+\begin{verbatim}
+rep: 0 lstat_tf_occupancy: condition: 0 tf: 0 oc: 0.000345 0.182335 0.25777 ...
+rep: X lstat_tf_occupancy: condition: 0 tf: 1 oc: 0.00062 0.10839 0.26971 ...
+rep: X lstat_tf_occupancy: condition: 1 tf: 0 oc: 0.001075 0.656755 0.916395 ...
+rep: X lstat_tf_occupancy: condition: 1 tf: 1 oc: 6.5e-05 0.00614 0.01471 ...
+rep: X lstat_tf_occupancy: condition: 2 tf: 0 oc: 0.001005 0.664515 0.928995 ...
+rep: X lstat_tf_occupancy: condition: 2 tf: 1 oc: 5e-06 0.00042 0.00097 ...
+rep: 0 wsum: 8005.96 3.33561e+07 1.9619e+07
+\end{verbatim}
+
+\noindent The first six lines give the occupancy profile for the indicated \emph{trans}-background (condition) and TF. One the occupancy levels for the first three nucleotide positions are shown in this output. The \texttt{X} simply indicates it's printing a continuation of the previous replicate as this statistic is a multi-line entry.
+
+The final line shows the sum configuration weight over all configurations: $\sum_{c_k} w(c_k)$. This calculation, as well as the occupancy calculations are exact in the sense that they use a dynamic programming algorithm to sum over the combinatorially large number of configurations. In contrast, expression calculations are estimates based on a sample from the distribution of configurations. The output above is from \texttt{examples/lstat3.sh}.
+
+\subsection{\texttt{--lstat=configs,1}}
+
+To simply view a sampling of configurations, one can use the \texttt{--lstat=configs,1} argument. Here the number of configurations is given in the \texttt{--steps=N} argument. N configurations are sampled under each \emph{trans}-background. The following example is given in \texttt{examples/lstat4.sh}.
+
+\begin{verbatim}
+rep: 0 lstat_configs: condition: 0 printing configs
+2:33, 2:23, 2:16,
+2:33, 2:26, 1:20, 1:14,
+2:43, 2:33, 2:26, 2:16, 2:8,
+2:43, 2:33, 2:26, 2:8,
+rep: X lstat_configs: condition: 1 printing configs
+1:44, 1:36, 1:28, 1:20, 1:14, 1:7,
+1:43, 1:34, 1:20, 1:14, 1:7,
+2:45, 1:36, 1:28, 1:20, 1:14, 1:7,
+1:36, 1:28, 1:20, 1:14, 1:7,
+rep: X lstat_configs: condition: 2 printing configs
+1:36, 1:28, 1:20, 1:14, 1:8,
+1:45, 1:36, 1:28, 1:20, 1:14, 1:8,
+1:36, 1:28, 1:20, 1:14, 1:7,
+1:41, 1:34, 1:28, 1:20, 1:14, 1:7,
+\end{verbatim}
+
+\noindent Each configuration is given as a line, with the tuples having the structure \texttt{TF:position}.
+
+\subsection{\texttt{--neighbors=R}}
+
+Here I provide an example of the use of \texttt{--neighbors=R} (see above). For this run the arguments \texttt{--lstat=expression,1} and \texttt{--lstat=sequence,1} are given. Since the enhancer in this example is $L=20$ bp, there are $L*3$ neighbors and the original sequence, resulting in $2(3L+1)$ records for the two statistics:
+
+\begin{verbatim}
+rep: 0 lstat_expression: 0.02123 0.251142 0.33598
+rep: 0 aagagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.0207075 0.243028 0.33882
+rep: 0 aggagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.0423825 0.498242 0.623918
+rep: 0 acaagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.0111825 0.155055 0.36141
+rep: 0 acgaatgcgtcggatgccct
+rep: 0 lstat_expression: 0.03893 0.446225 0.55018
+rep: 0 acgagagcgtcggatgccct
+.
+.
+\end{verbatim}
+
+\section{Obtaining source code}
+
+The entire package is coded in C++ and makes use of the Standard Template Library and object-oriented programming, so it's reasonably accessible if you're looking to modify it or extend it. I will be happy to answer your questions (kbullaughey@gmail.com).
+
+So far I have tested it on Linux (Red Hat Enterprise 5) MacPro (10.5) and MacBook (10.6). It comes with a \texttt{configure} script, and so if you're having trouble porting it to another platform or it is not compiling, I can try and generalize the build further. See the \texttt{README} that comes with the source distribution for information on compiling the software and for information about its dependencies.
+
+All the source code is available under the MIT License, with the additional request that if you're publishing anything using my software that you cite my original paper \cite{Bullaughey:2011p6261}.
+
+Finally, there are several undocumented uses of this package that are only partially implemented including Orr's block model and a method to do inference based on expression data from multiple enhancers along the lines of the original Segal paper but using parallel tempered simulated annealing. I never came back and finished this feature and there are large chunks of code related to this goal that can be ignored.
 
 \bibliography{refs}
 \end{document}
