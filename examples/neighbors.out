@@ -1,0 +1,124 @@
+cmd: ../bin/regevscape --model=segal --steps=200000 --length=20 --seed=5 --pwm=pwm_pair.pwms --tfs=2 --lambda=-1,2,-3 --gamma=2,-0.5,-0.5,2 --ffunc=f4 --coef=0.6,0.041,0.786,0.999 --condition=0.02,0.3 --condition=0.3,0.3 --condition=0.3,0.02 --neighbors=1 --lstat=expression,1 --lstat=sequence,1
+params: debug=0 model=1 popsim=0 pop_size=50000 seq_length=20 mu_rate=2e-08 recrate=0 generations=10 distr_mean=1 distr_sd=0.02 seed=5 max_reps=1 num_blocks=4 num_tfs=2 pwm_filename=pwm_pair.pwms logistic_param=1 segal_lambda=-1,2,-3 segal_gamma=2,-0.5,-0.5,2 IS_segal_gamma=none IS_segal_alpha=none segal_conditions=(0.02,0.3),(0.3,0.3),(0.3,0.02) deletion_params=none duplication_params=none
+rep: 0 lstat_expression: 0.02123 0.251142 0.33598
+rep: 0 aagagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.0207075 0.243028 0.33882
+rep: 0 aggagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.0423825 0.498242 0.623918
+rep: 0 acaagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.0111825 0.155055 0.36141
+rep: 0 acgaatgcgtcggatgccct
+rep: 0 lstat_expression: 0.03893 0.446225 0.55018
+rep: 0 acgagagcgtcggatgccct
+rep: 0 lstat_expression: 0.02032 0.23659 0.325877
+rep: 0 acgagggcgtcggatgccct
+rep: 0 lstat_expression: 0.0236175 0.278452 0.353687
+rep: 0 acgagcgcgtcggatgccct
+rep: 0 lstat_expression: 0.0298175 0.305503 0.406585
+rep: 0 acgagtacgtcggatgccct
+rep: 0 lstat_expression: 0.0046575 0.06948 0.146925
+rep: 0 acgagtgagtcggatgccct
+rep: 0 lstat_expression: 0.00438 0.064595 0.125475
+rep: 0 acgagtgggtcggatgccct
+rep: 0 lstat_expression: 0.000505 0.007675 0.04651
+rep: 0 acgagtgcatcggatgccct
+rep: 0 lstat_expression: 0.00325 0.045205 0.071745
+rep: 0 acgagtgcgacggatgccct
+rep: 0 lstat_expression: 0.00199 0.028395 0.047645
+rep: 0 acgagtgcggcggatgccct
+rep: 0 lstat_expression: 0.001855 0.0279425 0.0387625
+rep: 0 acgagtgcgccggatgccct
+rep: 0 lstat_expression: 0.017155 0.212695 0.31505
+rep: 0 acgagtgcgtaggatgccct
+rep: 0 lstat_expression: 0.00847 0.116178 0.25197
+rep: 0 acgagtgcgtgggatgccct
+rep: 0 lstat_expression: 0.0051425 0.0746 0.123092
+rep: 0 acgagtgcgtcagatgccct
+rep: 0 lstat_expression: 0.019385 0.22685 0.385485
+rep: 0 acgagtgcgtcgaatgccct
+rep: 0 lstat_expression: 0.038745 0.387292 0.4736
+rep: 0 acgagtgcgtcggaagccct
+rep: 0 lstat_expression: 0.02714 0.29844 0.352035
+rep: 0 acgagtgcgtcggaggccct
+rep: 0 lstat_expression: 0.02874 0.305972 0.35293
+rep: 0 acgagtgcgtcggacgccct
+rep: 0 lstat_expression: 0.015105 0.185792 0.398795
+rep: 0 acgagtgcgtcggataccct
+rep: 0 lstat_expression: 0.021925 0.258647 0.339427
+rep: 0 acgagtgcgtcggatgacct
+rep: 0 lstat_expression: 0.01912 0.226025 0.332763
+rep: 0 acgagtgcgtcggatggcct
+rep: 0 lstat_expression: 0.0056525 0.0720875 0.28556
+rep: 0 acgagtgcgtcggatgcact
+rep: 0 lstat_expression: 0.0116875 0.148567 0.327405
+rep: 0 acgagtgcgtcggatgcgct
+rep: 0 lstat_expression: 0.00963 0.120783 0.311635
+rep: 0 acgagtgcgtcggatgccat
+rep: 0 lstat_expression: 0.01932 0.227612 0.34058
+rep: 0 acgagtgcgtcggatgccgt
+rep: 0 lstat_expression: 0.022965 0.261452 0.337203
+rep: 0 acgagtgcgtcggatgccca
+rep: 0 lstat_expression: 0.023495 0.265805 0.338923
+rep: 0 acgagtgcgtcggatgcccg
+rep: 0 lstat_expression: 0.0234875 0.26765 0.337628
+rep: 0 acgagtgcgtcggatgcccc
+rep: 0 lstat_expression: 0.022095 0.252935 0.335877
+rep: 0 acgagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.020675 0.23967 0.338435
+rep: 0 acgagtgcgtcggatgcctt
+rep: 0 lstat_expression: 0.0129125 0.181303 0.377287
+rep: 0 acgagtgcgtcggatgctct
+rep: 0 lstat_expression: 0.021605 0.264175 0.386383
+rep: 0 acgagtgcgtcggatgtcct
+rep: 0 lstat_expression: 0.0123275 0.153452 0.346243
+rep: 0 acgagtgcgtcggatcccct
+rep: 0 lstat_expression: 0.0069575 0.11343 0.404857
+rep: 0 acgagtgcgtcggattccct
+rep: 0 lstat_expression: 0.0217775 0.245565 0.338297
+rep: 0 acgagtgcgtcgggtgccct
+rep: 0 lstat_expression: 0.024195 0.273587 0.344643
+rep: 0 acgagtgcgtcggctgccct
+rep: 0 lstat_expression: 0.021445 0.260713 0.368995
+rep: 0 acgagtgcgtcggttgccct
+rep: 0 lstat_expression: 0.005255 0.07534 0.286162
+rep: 0 acgagtgcgtcgcatgccct
+rep: 0 lstat_expression: 0.099955 0.628548 0.703735
+rep: 0 acgagtgcgtcgtatgccct
+rep: 0 lstat_expression: 0.0035475 0.053475 0.0851725
+rep: 0 acgagtgcgtccgatgccct
+rep: 0 lstat_expression: 0.014205 0.177535 0.325265
+rep: 0 acgagtgcgtctgatgccct
+rep: 0 lstat_expression: 0.0045625 0.065185 0.256373
+rep: 0 acgagtgcgttggatgccct
+rep: 0 lstat_expression: 0.0089 0.12516 0.211215
+rep: 0 acgagtgcctcggatgccct
+rep: 0 lstat_expression: 0.11649 0.63443 0.787255
+rep: 0 acgagtgcttcggatgccct
+rep: 0 lstat_expression: 0.0566175 0.461182 0.6516
+rep: 0 acgagtgtgtcggatgccct
+rep: 0 lstat_expression: 0.006225 0.088325 0.119807
+rep: 0 acgagtccgtcggatgccct
+rep: 0 lstat_expression: 0.167618 0.706935 0.817845
+rep: 0 acgagttcgtcggatgccct
+rep: 0 lstat_expression: 0.01722 0.208047 0.32531
+rep: 0 acgactgcgtcggatgccct
+rep: 0 lstat_expression: 0.017455 0.213133 0.388238
+rep: 0 acgattgcgtcggatgccct
+rep: 0 lstat_expression: 0.015655 0.187683 0.317553
+rep: 0 acgggtgcgtcggatgccct
+rep: 0 lstat_expression: 0.02213 0.253727 0.335618
+rep: 0 acgcgtgcgtcggatgccct
+rep: 0 lstat_expression: 0.0212175 0.261862 0.411743
+rep: 0 acgtgtgcgtcggatgccct
+rep: 0 lstat_expression: 0.0211975 0.241863 0.327115
+rep: 0 accagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.0233 0.26859 0.364585
+rep: 0 actagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.0112325 0.142093 0.322977
+rep: 0 atgagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.02163 0.247308 0.329235
+rep: 0 gcgagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.02235 0.257203 0.341328
+rep: 0 ccgagtgcgtcggatgccct
+rep: 0 lstat_expression: 0.022305 0.26459 0.352363
+rep: 0 tcgagtgcgtcggatgccct

@@ -1,0 +1,13 @@
+cmd: ../bin/regevscape --model=segal --steps=200000 --length=50 --seed=10 --pwm=pwm_pair.pwms --tfs=2 --lambda=-1,2,-3 --gamma=2,-0.5,-0.5,2 --ffunc=f4 --coef=0.6,0.041,0.786,0.999 --condition=0.02,0.3 --condition=0.3,0.3 --condition=0.3,0.02 --popsim -N 1000 -g 2000 -u 1e-06 --pstat=mean_fitness,200
+params: debug=0 model=1 popsim=1 pop_size=1000 seq_length=50 mu_rate=1e-06 recrate=0 generations=2000 distr_mean=1 distr_sd=0.02 seed=10 max_reps=0 num_blocks=4 num_tfs=2 pwm_filename=pwm_pair.pwms logistic_param=1 segal_lambda=-1,2,-3 segal_gamma=2,-0.5,-0.5,2 IS_segal_gamma=none IS_segal_alpha=none segal_conditions=(0.02,0.3),(0.3,0.3),(0.3,0.02) deletion_params=none duplication_params=none
+gen: 0 pstat_mean_fitness: 0.603736
+gen: 200 pstat_mean_fitness: 0.746087
+gen: 400 pstat_mean_fitness: 0.827466
+gen: 600 pstat_mean_fitness: 0.947273
+gen: 800 pstat_mean_fitness: 0.956373
+gen: 1000 pstat_mean_fitness: 0.962493
+gen: 1200 pstat_mean_fitness: 0.962493
+gen: 1400 pstat_mean_fitness: 0.962493
+gen: 1600 pstat_mean_fitness: 0.962493
+gen: 1800 pstat_mean_fitness: 0.962493
+gen: 2000 pstat_mean_fitness: 0.962493
