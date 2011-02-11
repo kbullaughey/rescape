@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) { try {
 
    /* read in the command line arguments and print them out */
    ar.populate(argc, argv);
-   cout << "args: " << ar << endl;
+   cout << ar << endl;
 
    /* create the random number generator */
    RandomNumberGenerator *rng = 0;

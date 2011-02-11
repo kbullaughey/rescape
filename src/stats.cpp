@@ -328,6 +328,7 @@ void lstat_wsum(ostream &s, const ScapeStat &x, const Sequence &seq) {
    
    valarray<double> wsum((int)ls->conditions.size());
    ls->get_wsum(seq, wsum);
+   s << "wsum:";
    for (int cond = 0; cond < (int)ls->conditions.size(); cond++) 
       s << " " << wsum[cond];
    s << endl;
@@ -340,6 +341,7 @@ void lstat_configs(ostream &s, const ScapeStat &x, const Sequence &seq) {
    if (ls == NULL) throw SimError("lstat_configs only for SegalModelSpecifiedIID");
 
    ProbTable ptables(ls->M, ls->D, seq.length());
+   s << "lstat_configs: ";
    for (unsigned int i=0; i<ls->conditions.size(); i++) {
       if (i > 0)
          s << "rep: X lstat_configs: ";
