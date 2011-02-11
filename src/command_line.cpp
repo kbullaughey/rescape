@@ -124,6 +124,7 @@ void Args::fix_negatives(char *str) {
 /* parse the argv list and populate the relevant member variables */
 void Args::populate(int argc, char *argv[]) {
    int c;
+   int real_time_stats = 0;
 
    /* read in information from the environment */
    char *num_slots_str = getenv("NSLOTS");   
@@ -308,8 +309,11 @@ void Args::populate(int argc, char *argv[]) {
                throw SimUsageError("must specify statistic");
             PopStat pstat(optarg);
             /* we only need to queue queued stats */
-            if (pstat.stype == queued) 
+            if (pstat.stype == queued) {
                popstats.push_back(pstat);
+            } else if (pstat.stype == realtime) {
+              real_time_stats++;
+            }
             break;
          }
          case LSTAT: {
@@ -530,7 +534,7 @@ void Args::populate(int argc, char *argv[]) {
    /* detect any conflicts among options specified */
 
    if (!autofit) {
-      if ((do_popsim && popstats.size() == 0) ||
+      if ((do_popsim && (real_time_stats + popstats.size()) == 0) ||
             (!do_popsim && scapestats.size() == 0))
          throw SimUsageError("must specify one or more statistics to print");
    }
