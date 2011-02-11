@@ -1,4 +1,4 @@
-doc = regevscape-manual
+doc = rescape-manual
 all: $(doc).pdf 
 
 $(doc).pdf: $(doc).tex refs.bib plos2009.bst
@@ -10,4 +10,4 @@ $(doc).pdf: $(doc).tex refs.bib plos2009.bst
 	pdflatex $<
 
 clean:
-	-rm $(doc).out $(doc).aux $(doc).bbl $(doc).blg $(doc).log $(doc).pdf
+	-rm $(doc).out $(doc).aux $(doc).bbl $(doc).blg $(doc).log $(doc).pdf $(doc).toc

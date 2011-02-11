@@ -1,6 +1,6 @@
 OVERVIEW 
 
-This package contains the program regevscape which simulations the evolution
+This package contains the program rescape which simulations the evolution
 of regulatory DNA for a single enhancer or promoter. Please see the original
 paper for details on the purposes and interpretation of this program:
 
@@ -13,7 +13,7 @@ questions about this software or the paper.
 
 INSTALLATION
 
-To compile regevscape in the simplest setting, you can do the following:
+To compile rescape in the simplest setting, you can do the following:
 
    ./configure
    make

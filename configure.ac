@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.62)
-AC_INIT([regevscape], [0.9], [kbullaughey@gmail.com])
+AC_INIT([rescape], [0.9], [kbullaughey@gmail.com])
 AC_CONFIG_SRCDIR([src/array.cpp])
 
 # Checks for programs.

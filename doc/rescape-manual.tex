@@ -17,7 +17,7 @@
 \pagestyle{fancy}
 \lhead{} 
 \chead{} 
-\rhead{\bfseries regevscape Manual} 
+\rhead{\bfseries rescape Manual} 
 \lfoot{} 
 \cfoot{} 
 \rfoot{} 
@@ -29,7 +29,7 @@
 \widowpenalty=10000
 
 \author{Kevin Bullaughey \\ \normalsize{kbullaughey@gmail.com}} 
-\title{\texttt{regevscape} Manual\\ \normalsize{Regulatory Evolution Landscape Simulator}}
+\title{\texttt{rescape} Manual\\ \normalsize{Regulatory Evolution Landscape Simulator}}
 
 \begin{document}
 \maketitle
@@ -39,7 +39,7 @@
 
 \section{Overview}
 
-This manual provides documentation of the \texttt{regevscape} program, which is short for \textbf{reg}ulatory \textbf{ev}olution land\textbf{scape} simulator. \texttt{regevscape} simulates sequence evolution of an enhancer using a computational model of regulatory function based on the Segal model \cite{Segal:2008p460}, a fitness penalization for misexpression, and forward population simulations. It was originally used by Bullaughey \cite{Bullaughey:2011p6261} to investigate nucleotide substitution processes in a regime of stabilizing selection for a particular regulatory output of simple toy enhancers. For an overview of the model and details on the implementation, please refer to the original paper \cite{Bullaughey:2011p6261}. The purpose of this manual is to document usage of the program and aid interpretation of the output.
+This manual provides documentation of the \texttt{rescape} program, which is short for \textbf{r}egulatory \textbf{e}volution land\textbf{scape} simulator. \texttt{rescape} simulates sequence evolution of an enhancer using a computational model of regulatory function based on the Segal model \cite{Segal:2008p460}, a fitness penalization for misexpression, and forward population simulations. It was originally used by Bullaughey \cite{Bullaughey:2011p6261} to investigate nucleotide substitution processes in a regime of stabilizing selection for a particular regulatory output of simple toy enhancers. For an overview of the model and details on the implementation, please refer to the original paper \cite{Bullaughey:2011p6261}. The purpose of this manual is to document usage of the program and aid interpretation of the output.
 
 \section{Terminology}
 
@@ -51,18 +51,18 @@ Some terminology relates specifically to the Segal model and I follow my earlier
 
 \section{Modes of operation}
 
-\texttt{regevscape} has two basic modes of operation. One is to do forward population simulations. The other mode is to compute various statistics related to the sequence fitness landscape. Possibilities here include computing expression profiles or various occupancy statistics. These statistics can be computed for either sequences sampled \emph{iid} from sequence space or all sequences within some number of mutational steps of a provided or sampled sequence. Alternatively, one can simply sample \emph{iid} from the distribution of configurations of TFs for a regulatory problem.
+\texttt{rescape} has two basic modes of operation. One is to do forward population simulations. The other mode is to compute various statistics related to the sequence fitness landscape. Possibilities here include computing expression profiles or various occupancy statistics. These statistics can be computed for either sequences sampled \emph{iid} from sequence space or all sequences within some number of mutational steps of a provided or sampled sequence. Alternatively, one can simply sample \emph{iid} from the distribution of configurations of TFs for a regulatory problem.
 
 \section{Inputs}
 
 There are several components that need specification in order to parameterize the regulatory landscape and optionally, simulate regulatory evolution of an enhancer. Parameters required for specification of the fitness landscape include the binding functions of the TFs, the TF activity levels, the expression levels of these TFs in each \emph{trans}-background, the optimal expression levels in each \emph{trans}-background, and the shape of the fitness function. For simulating regulatory evolution, additional parameters need specification including population size, number of generations, mutation rates, insertion and deletion rates and distributions, and the initial sequence representing the initially monomorphic population. Finally, parameters dictating what output is to be provided are also needed. All these parameters are specified on the command line in an order-independent way. 
 
-\section{Invoking \texttt{regevscape}: an example}
+\section{Invoking \texttt{rescape}: an example}
 
-As an example, the following is one invocation of the \texttt{regevscape} command used in the original paper:
+As an example, the following is one invocation of the \texttt{rescape} command used in the original paper:
 
 \begin{verbatim}
-./regevscape --model=segal --steps=200000 --length=100 --seed=1 \
+./rescape --model=segal --steps=200000 --length=100 --seed=1 \
   --pwm=pwm_pair.pwms --tfs=2 --lambda=-1,2,-3 --gamma=2,-0.5,-0.5,2 \
   --ffunc=f4 --coef=0.6,0.041,0.786,0.999 \
   --condition=0.02,0.3 --condition=0.3,0.3 --condition=0.3,0.02 \
@@ -73,7 +73,7 @@ As an example, the following is one invocation of the \texttt{regevscape} comman
 
 \noindent Here the Segal model is used to simulate evolution of a 100 bp enhancer under three \emph{trans}-backgrounds using a Gaussian kernel as the expression-fitness function.
 
-To get a condensed help message detailing the possible command-line options to \texttt{regevscape}, simply invoke the program with no options, or the \texttt{--help} or \texttt{-h} options.
+To get a condensed help message detailing the possible command-line options to \texttt{rescape}, simply invoke the program with no options, or the \texttt{--help} or \texttt{-h} options.
 
 \section{Parameters}
 
@@ -217,7 +217,7 @@ Statistic & Models & Description \\
 
 The program always prints two summary lines at the beginning. The first, beginning with \texttt{cmd:} is the particular invocation of the command that was run, and the second, beginning with \texttt{params:} gives the values of all parameters, including those that were not specified but are set using the default values for those parameters (note, some of these are not documented here). In the examples below, some of the output is replaced by an ellipsis ($\ldots$) for brevity and lines ending with a slash are not broken in the actual output and do not contain the slash. In (nearly) all cases, the statistic gives the generation at which point it is printed, the name of the statistic and one or more columns some of which may be prefaced by labels. Nucleotide positions count from zero on up from left to right.
 
-All of the output given below is available in its entirety in the \texttt{examples} directory of the \texttt{regevscape} distribution. In each case, there is a shell script with the original command and the output from that command under the same root file name (with a \texttt{.out} extension).
+All of the output given below is available in its entirety in the \texttt{examples} directory of the \texttt{rescape} distribution. In each case, there is a shell script with the original command and the output from that command under the same root file name (with a \texttt{.out} extension).
 
 \subsection{\texttt{--pstat=most\_freq\_seq,N}}
 

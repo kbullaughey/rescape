@@ -180,7 +180,7 @@ int main(int argc, char *argv[]) { try {
 /* print out usage information */
 void usage(void) {
    cerr << 
-"usage: regevscape [options]\n"
+"usage: rescape [options]\n"
 "\n"
 "  general options:\n"
 "     -m/--model (block|segal|neutral)\n" 
