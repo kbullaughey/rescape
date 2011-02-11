@@ -4,12 +4,12 @@ This package contains the program regevscape which simulations the evolution
 of regulatory DNA for a single enhancer or promoter. Please see the original
 paper for details on the purposes and interpretation of this program:
 
-   Changes in Selective Effects Over Time Facilitate Turnover of 
-   Enhancer Sequences. Bullaughey KL, Genetics. 2010 Nov 23. 
-   [Epub ahead of print]
+  Bullaughey K. Changes in selective effects over time facilitate turnover 
+  of enhancer sequences. Genetics (2011) vol. 187 (2) pp. 567-82
 
-Please contact me (kbullaughey@gmail.com) if you have questions about this 
-software or the paper.
+And please cite the above paper if you publish something using my code or a
+derivative. Don't hesitate to contact me (kbullaughey@gmail.com) if you have 
+questions about this software or the paper.
 
 INSTALLATION
 
@@ -39,6 +39,6 @@ OpenMP
 If OpenMP is available on your system (and detected by configure) then OpenMP
 support will be compiled in. However, currently the only aspect of the code
 that is parallelized is the partially implemented inference model. So in the
-current version, whether you have openmp should make no difference.
+current version, whether you have OpenMP should make no difference.
 
 Enjoy.
